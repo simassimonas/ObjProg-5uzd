@@ -64,6 +64,7 @@ int main()
         }while (e!=string::npos);
     }
 
+    int kiekEil = 0; //kiek eiluciu bus atspausdinta
     std::ofstream fout ("rez.txt");
     for(std::set<zodis>::iterator it = uniqueZodziai.begin(); it != uniqueZodziai.end(); it++) {
         int kiek = 0;
@@ -76,13 +77,33 @@ int main()
             begin++;
         }
         if(kiek >= 2) {
+            kiekEil++;
             fout << it->z << " pasikartoja " << kiek << " kartus siose eilutese: ";
             for (auto i: eilutes) fout << i << " ";
             fout << endl;
         }
     }
 
-    for(auto i: url) fout << i << endl;
+    std::ifstream ffin ("rez.txt");
+    string lline;
+    vector<string> e1;
+    vector<string> e2;
+    for(auto i=0; i<kiekEil/2; i++){
+        (getline(ffin, lline));
+        e1.push_back(lline);
+    }
+
+    for(auto i=kiekEil/2; i<kiekEil; i++){
+        (getline(ffin, lline));
+        e2.push_back(lline);
+    }
+
+    std::ofstream ffout ("rezGalutinis.txt");
+    for(auto i=0; i<e1.size(); i++){
+        ffout << std::left << std::setw(60) << e1[i] << std::setw(60) << std::left << e2[i] << endl;
+    }
+
+    for(auto i: url) ffout << i << endl;
 
     return 0;
 }
